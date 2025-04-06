@@ -1,0 +1,10 @@
+streamlit
+xgboost
+scikit-learn
+pandas
+numpy
+tldextract
+joblib
+seaborn
+matplotlib
+urllib.parse

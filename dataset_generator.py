@@ -1,26 +1,24 @@
 import pandas as pd
-from feature_extraction import extract_all_features
-from whois_extractor import extract_whois_features
+from feature_extraction import extract_features
 from tqdm import tqdm
 
 # Load original dataset
-df = pd.read_csv("WebpagePhishingDetection.csv")  # Change path if needed
+df = pd.read_csv("D:\\@project\\data\\dataset_phishing.csv")  # Adjust if path changes
 urls = df["url"]
 labels = df["status"]
 
-# Storage
+# Storage for features
 all_features = []
 
-# Progress bar
-for i in tqdm(range(len(urls))):
+# Extract features with progress bar
+for i in tqdm(range(len(urls)), desc="Extracting features"):
     url = urls[i]
     try:
-        basic_feats = extract_all_features(url)
-        whois_feats = extract_whois_features(url)
-        combined = {**basic_feats, **whois_feats, "status": labels[i]}
+        basic_feats = extract_features(url)
+        combined = {**basic_feats, "status": labels[i]}
         all_features.append(combined)
     except Exception as e:
-        print(f"Error processing URL {url}: {e}")
+        print(f"❌ Error processing URL {url}: {e}")
 
 # Convert to DataFrame
 final_df = pd.DataFrame(all_features)
